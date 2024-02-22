@@ -391,6 +391,10 @@ print(time.time()-t0," seconds")
 #plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_RHC_learning_curve","sample size", "NN_RHC_learning_curve.png")
 #print(time.time()-t0," seconds")
 
-a, train_score, test_score = sklearn.model_selection.learning_curve(Classifier_SA, fruits_train_x,pd.get_dummies(fruits_train_y), train_sizes=np.linspace(0.25,1,10),scoring='f1_weighted', cv=2, n_jobs=4)
-plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_SA_learning_curve","sample size", "NN_SA_learning_curve.png")
+#a, train_score, test_score = sklearn.model_selection.learning_curve(Classifier_SA, fruits_train_x,pd.get_dummies(fruits_train_y), train_sizes=np.linspace(0.25,1,10),scoring='f1_weighted', cv=2, n_jobs=4)
+#plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_SA_learning_curve","sample size", "NN_SA_learning_curve.png")
+#print(time.time()-t0," seconds")
+
+a, train_score, test_score = sklearn.model_selection.learning_curve(Classifier_GA, fruits_train_x,pd.get_dummies(fruits_train_y), train_sizes=np.linspace(0.25,1,10),scoring='f1_weighted', cv=2, n_jobs=4)
+plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_GA_learning_curve","sample size", "NN_GA_learning_curve.png")
 print(time.time()-t0," seconds")
