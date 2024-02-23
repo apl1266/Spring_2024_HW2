@@ -44,25 +44,25 @@ def plotter(x,y,label,name,x_label="number of iterations"):
 
 def plotter22(x1,y1,x2,y2,x3,y3,x4,y4,name,label_suf):
     plt.subplot(2,2,1)
-    plt.plot(x1, y1 , "-o", label="RHC for"+label_suf)
+    plt.plot(x1, y1 , "-o", label="RHC for "+label_suf)
     plt.xlabel("number of iterations")
     plt.ylabel("score")
     plt.title("RHC for"+label_suf)
 
     plt.subplot(2, 2, 2)
-    plt.plot(x2, y2, "-o", label="SA for" + label_suf)
+    plt.plot(x2, y2, "-o", label="SA for " + label_suf)
     plt.xlabel("number of iterations")
     plt.ylabel("score")
     plt.title("SA for" + label_suf)
 
     plt.subplot(2, 2, 3)
-    plt.plot(x3, y3, "-o", label="GA for" + label_suf)
+    plt.plot(x3, y3, "-o", label="GA for " + label_suf)
     plt.xlabel("total population")
     plt.ylabel("score")
     plt.title("GA for" + label_suf)
 
     plt.subplot(2, 2, 4)
-    plt.plot(x4, y4, "-o", label="MIMIC for" + label_suf)
+    plt.plot(x4, y4, "-o", label="MIMIC for " + label_suf)
     plt.xlabel("total population")
     plt.ylabel("score")
     plt.title("MIMIC for" + label_suf)
@@ -342,7 +342,7 @@ if 1:
     KC_RHC = mlrose_hiive.random_hill_climb(problem_set, max_attempts=5000, max_iters=50000, restarts=0,init_state=None, curve=True, random_state=812)
     dt=time.time()-t0
     print("KC RHC for ", num_edges, " run for ", dt, " seconds ", "with the best score of ", KC_RHC[1])
-    plotter(KC_RHC[2][:, 1], KC_RHC[2][:, 0], "KC for " str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors", "KC_RHC.png")
+    plotter(KC_RHC[2][:, 1], KC_RHC[2][:, 0],"KC for "+ str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors", "KC_RHC.png")
     print("---------------------")
 
 if 1:
@@ -388,7 +388,7 @@ if 1:
     dt_class=time.time()-t0
 
     t0=time.time()
-    #Classifier_RHC.fit(fruits_train_x, pd.get_dummies(fruits_train_y))
+    Classifier_RHC.fit(fruits_train_x, pd.get_dummies(fruits_train_y))
     dt_class_RHC=time.time()-t0
 
     t0=time.time()
@@ -417,9 +417,9 @@ if 1:
 
 Classifier=MLPClassifier(tol=0.005,hidden_layer_sizes=[25,25],activation='relu',learning_rate="constant",learning_rate_init=0.01, random_state=812)
 Classifier_RHC = mlrose_hiive.NeuralNetwork(hidden_nodes = [25,25], activation = 'relu', algorithm ="random_hill_climb",
-                                 learning_rate = 0.02, random_state = 812,pop_size=200,mutation_prob=0.02,max_iters=10000)
+                                 learning_rate = 0.2, random_state = 812,pop_size=200,mutation_prob=0.02,max_iters=10000)
 Classifier_SA = mlrose_hiive.NeuralNetwork(hidden_nodes = [25,25], activation = 'relu', algorithm ="simulated_annealing", schedule=mlrose_hiive.GeomDecay(init_temp=1, decay=0.99, min_temp=0.001),
-                                 learning_rate = 0.02, random_state = 812,pop_size=200,mutation_prob=0.02,max_iters=10000)
+                                 learning_rate = 0.2, random_state = 812,pop_size=200,mutation_prob=0.02,max_iters=10000)
 Classifier_GA = mlrose_hiive.NeuralNetwork(hidden_nodes = [25,25], activation = 'relu', algorithm = 'genetic_alg',
                                  learning_rate = 0.02, random_state = 812,pop_size=50,mutation_prob=0.01,max_iters=500)
 
