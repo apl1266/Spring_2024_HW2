@@ -38,6 +38,39 @@ def plotter(x,y,label,name,x_label="number of iterations"):
     plt.plot(x, y , "-o", label=label)
     plt.xlabel(x_label)
     plt.ylabel("score")
+    plt.title(label)
+    plt.savefig(name)
+    plt.clf()
+
+def plotter22(x1,y1,x2,y2,x3,y3,x4,y4,name,label_suf):
+    plt.subplot(2,2,1)
+    plt.plot(x1, y1 , "-o", label="RHC for"+label_suf)
+    plt.xlabel("number of iterations")
+    plt.ylabel("score")
+    plt.title("RHC for"+label_suf)
+
+    plt.subplot(2, 2, 2)
+    plt.plot(x2, y2, "-o", label="SA for" + label_suf)
+    plt.xlabel("number of iterations")
+    plt.ylabel("score")
+    plt.title("SA for" + label_suf)
+
+    plt.subplot(2, 2, 3)
+    plt.plot(x3, y3, "-o", label="GA for" + label_suf)
+    plt.xlabel("total population")
+    plt.ylabel("score")
+    plt.title("GA for" + label_suf)
+
+    plt.subplot(2, 2, 4)
+    plt.plot(x4, y4, "-o", label="MIMIC for" + label_suf)
+    plt.xlabel("total population")
+    plt.ylabel("score")
+    plt.title("MIMIC for" + label_suf)
+
+    plt.suptitle(label_suf+ " problem")
+
+    plt.tight_layout()
+
     plt.savefig(name)
     plt.clf()
 
@@ -75,7 +108,7 @@ print("---------------------")
 
 problem_set = mlrose_hiive.DiscreteOpt(queens,fun,max_val = queens)
 
-if 0:
+if 1:
     t0=time.time()
     queens_RHC = mlrose_hiive.random_hill_climb(problem_set, max_attempts=5000, max_iters=10000, restarts=0,init_state=None, curve=True, random_state=812)
     dt=time.time()-t0
@@ -83,7 +116,7 @@ if 0:
     plotter(queens_RHC[2][:,1], queens_RHC[2][:,0],"RHC for "+str(queens)+" queens", "Queens_RHC.png")
     print("---------------------")
 
-if 0:
+if 1:
     t0=time.time()
     queens_SA = mlrose_hiive.simulated_annealing(problem_set, schedule=mlrose_hiive.GeomDecay(), max_attempts=1000,max_iters=10000, init_state=None, curve=True,random_state=812)
     dt=time.time()-t0
@@ -91,7 +124,7 @@ if 0:
     plotter(queens_SA[2][:,1], queens_SA[2][:,0],"SA for "+str(queens)+" queens", "Queens_SA.png")
     print("---------------------")
 
-if 0:
+if 1:
     t0=time.time()
     queens_GA = mlrose_hiive.genetic_alg(problem_set, pop_size=200, mutation_prob=0.1, max_attempts=20,max_iters=20000, curve=True, random_state=812)
     dt=time.time()-t0
@@ -99,13 +132,15 @@ if 0:
     plotter(queens_GA[2][:,1], queens_GA[2][:,0],"GA for "+str(queens)+" queens", "Queens_GA.png","total population number")
     print("---------------------")
 
-if 0:
+if 1:
     t0=time.time()
     queens_MIMIC = mlrose_hiive.mimic(problem_set, pop_size=500, keep_pct=0.5, max_attempts=10,max_iters=20000, curve=True, random_state=812)
     dt=time.time()-t0
     print("Queens MIMIC for ",queens," run for ", dt," seconds ", "with the best score of ",  queens_MIMIC[1])
     plotter(queens_MIMIC[2][:,1], queens_MIMIC[2][:,0],"MIMIC for "+str(queens)+" queens", "Queens_MIMIC.png","total population number")
     print("---------------------")
+
+    plotter22(queens_RHC[2][:,1], queens_RHC[2][:,0],queens_SA[2][:,1], queens_SA[2][:,0],queens_GA[2][:,1], queens_GA[2][:,0],queens_MIMIC[2][:,1], queens_MIMIC[2][:,0], "Queens_full_plot.png", str(queens)+" queens")
 
 
 #FlipFlop
@@ -236,7 +271,7 @@ if 0:
 knap_num=500
 problem_set = mlrose_hiive.KnapsackOpt(weights=np.random.uniform(20,40,knap_num), values=np.random.uniform(20,30,knap_num),max_weight_pct=0.9)
 
-if 0:
+if 1:
     t0=time.time()
     KS_RHC = mlrose_hiive.random_hill_climb(problem_set, max_attempts=5000, max_iters=5000, restarts=0,init_state=None, curve=True, random_state=812)
     dt=time.time()-t0
@@ -244,29 +279,32 @@ if 0:
     plotter(KS_RHC[2][:,1], KS_RHC[2][:,0],"KS for "+str(knap_num)+" problem length", "KS_RHC.png")
     print("---------------------")
 
-if 0:
+if 1:
     t0=time.time()
     KS_SA = mlrose_hiive.simulated_annealing(problem_set, schedule=mlrose_hiive.GeomDecay(), max_attempts=5000,max_iters=500000, init_state=None, curve=True,random_state=812)
     dt=time.time()-t0
     print("KS SA for ",knap_num," run for ", dt," seconds ", "with the best score of ",  KS_SA[1])
-    plotter(KS_SA[2][:,1], KS_SA[2][:,0],"KS for "+str(knap_num)+" problem length", "KS_SA.png")
+    plotter(KS_SA[2][:,1], KS_SA[2][:,0],"KS for "+str(knap_num)+" items in knapsack", "KS_SA.png")
     print("---------------------")
 
-if 0:
+if 1:
     t0=time.time()
     KS_GA = mlrose_hiive.genetic_alg(problem_set, pop_size=200, mutation_prob=0.1, max_attempts=100,max_iters=5000, curve=True, random_state=812)
     dt=time.time()-t0
     print("KS GA for ",knap_num," run for ", dt," seconds ", "with the best score of ",  KS_GA[1])
-    plotter(KS_GA[2][:,1], KS_GA[2][:,0],"KS for "+str(knap_num)+" problem length", "KS_GA.png","total population number")
+    plotter(KS_GA[2][:,1], KS_GA[2][:,0],"KS for "+str(knap_num)+" items in knapsack", "KS_GA.png","total population number")
     print("---------------------")
 
-if 0:
+if 1:
     t0=time.time()
     KS_MIMIC = mlrose_hiive.mimic(problem_set, pop_size=20, keep_pct=0.5, max_attempts=10,max_iters=50, curve=True, random_state=812)
     dt=time.time()-t0
     print("KS MIMIC for ",knap_num," run for ", dt," seconds ", "with the best score of ",  KS_MIMIC[1])
-    plotter(KS_MIMIC[2][:,1], KS_MIMIC[2][:,0],"KS for "+str(knap_num)+" problem length", "KS_MIMIC.png","total population number")
+    plotter(KS_MIMIC[2][:,1], KS_MIMIC[2][:,0],"KS for "+str(knap_num)+" items in knapsack", "KS_MIMIC.png","total population number")
     print("---------------------")
+
+    plotter22(KS_RHC[2][:,1], KS_RHC[2][:,0],KS_SA[2][:,1], KS_SA[2][:,0],KS_GA[2][:,1], KS_GA[2][:,0],KS_MIMIC[2][:,1], KS_MIMIC[2][:,0], "KS_full_plot.png", str(knap_num)+" items in knapsack")
+
 
 
 #Four peaks
@@ -299,42 +337,45 @@ for i in range(num_edges):
 
 problem_set = mlrose_hiive.DiscreteOpt(length = num_dots, fitness_fn = mlrose_hiive.MaxKColor(edges), maximize=True,max_val=num_colors)
 
-if 0:
+if 1:
     t0=time.time()
     KC_RHC = mlrose_hiive.random_hill_climb(problem_set, max_attempts=5000, max_iters=50000, restarts=0,init_state=None, curve=True, random_state=812)
     dt=time.time()-t0
     print("KC RHC for ", num_edges, " run for ", dt, " seconds ", "with the best score of ", KC_RHC[1])
-    plotter(KC_RHC[2][:, 1], KC_RHC[2][:, 0], "KC for " + str(num_edges) + " problem length", "KC_RHC.png")
+    plotter(KC_RHC[2][:, 1], KC_RHC[2][:, 0], "KC for " str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors", "KC_RHC.png")
     print("---------------------")
 
-if 0:
+if 1:
     t0=time.time()
     KC_SA = mlrose_hiive.simulated_annealing(problem_set, schedule=mlrose_hiive.GeomDecay(), max_attempts=5000,max_iters=50000, init_state=None, curve=True,random_state=812)
     dt=time.time()-t0
     print("KC SA for ",num_edges," run for ", dt," seconds ", "with the best score of ",  KC_SA[1])
-    plotter(KC_SA[2][:,1], KC_SA[2][:,0],"FP for "+str(num_edges)+" problem length", "KC_SA.png")
+    plotter(KC_SA[2][:,1], KC_SA[2][:,0],"KC for "+str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors", "KC_SA.png")
     print("---------------------")
 
-if 0:
+if 1:
     t0=time.time()
     KC_GA = mlrose_hiive.genetic_alg(problem_set, pop_size=500, mutation_prob=0.5, max_attempts=100,max_iters=15000, curve=True, random_state=812)
     dt=time.time()-t0
     print("KC GA for ",num_edges," run for ", dt," seconds ", "with the best score of ",  KC_GA[1])
-    plotter(KC_GA[2][:,1], KC_GA[2][:,0],"KS for "+str(num_edges)+" number of edges", "KC_GA.png","total population number")
+    plotter(KC_GA[2][:,1], KC_GA[2][:,0],"KC for "+str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors", "KC_GA.png","total population number")
     print("---------------------")
 
-if 0:
+if 1:
     t0=time.time()
     KC_MIMIC = mlrose_hiive.mimic(problem_set, pop_size=400, keep_pct=0.8, max_attempts=20,max_iters=200, curve=True, random_state=812)
     dt=time.time()-t0
     print("KC MIMIC for ",num_edges," run for ", dt," seconds ", "with the best score of ",  KC_MIMIC[1])
-    plotter(KC_MIMIC[2][:,1], KC_MIMIC[2][:,0],"KC for "+str(num_edges)+" number of edges", "KC_MIMIC.png","total population number")
+    plotter(KC_MIMIC[2][:,1], KC_MIMIC[2][:,0],"KC for "+str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors", "KC_MIMIC.png","total population number")
     print("---------------------")
+
+    plotter22(KC_RHC[2][:,1], KC_RHC[2][:,0],KC_SA[2][:,1], KC_SA[2][:,0],KC_GA[2][:,1], KC_GA[2][:,0],KC_MIMIC[2][:,1], KC_MIMIC[2][:,0], "KC_full_plot.png", str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors")
+
 
 
 #Nueral nets optimizers
 fruits_train_x,fruits_train_y,fruits_test_x,fruits_test_y= frames("fruits_data.csv",0.2)
-if 0:
+if 1:
     Classifier=MLPClassifier(tol=0.005,hidden_layer_sizes=[25,25],activation='relu',learning_rate="constant",learning_rate_init=0.01, random_state=812)
     Classifier_RHC = mlrose_hiive.NeuralNetwork(hidden_nodes = [25,25], activation = 'relu', algorithm ="random_hill_climb",
                                      learning_rate = 0.02, random_state = 812,pop_size=200,mutation_prob=0.02,max_iters=100000)
@@ -376,24 +417,24 @@ if 0:
 
 Classifier=MLPClassifier(tol=0.005,hidden_layer_sizes=[25,25],activation='relu',learning_rate="constant",learning_rate_init=0.01, random_state=812)
 Classifier_RHC = mlrose_hiive.NeuralNetwork(hidden_nodes = [25,25], activation = 'relu', algorithm ="random_hill_climb",
-                                 learning_rate = 0.02, random_state = 812,pop_size=200,mutation_prob=0.02,max_iters=100000)
+                                 learning_rate = 0.02, random_state = 812,pop_size=200,mutation_prob=0.02,max_iters=10000)
 Classifier_SA = mlrose_hiive.NeuralNetwork(hidden_nodes = [25,25], activation = 'relu', algorithm ="simulated_annealing", schedule=mlrose_hiive.GeomDecay(init_temp=1, decay=0.99, min_temp=0.001),
-                                 learning_rate = 0.02, random_state = 812,pop_size=200,mutation_prob=0.02,max_iters=100000)
+                                 learning_rate = 0.02, random_state = 812,pop_size=200,mutation_prob=0.02,max_iters=10000)
 Classifier_GA = mlrose_hiive.NeuralNetwork(hidden_nodes = [25,25], activation = 'relu', algorithm = 'genetic_alg',
-                                 learning_rate = 0.02, random_state = 812,pop_size=50,mutation_prob=0.01,max_iters=5000)
+                                 learning_rate = 0.02, random_state = 812,pop_size=50,mutation_prob=0.01,max_iters=500)
 
 t0=time.time()
 a, train_score, test_score = sklearn.model_selection.learning_curve(Classifier, fruits_train_x,pd.get_dummies(fruits_train_y), train_sizes=np.linspace(0.25,1,10),scoring='f1_weighted', cv=2, n_jobs=-1)
 plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_learning_curve","sample size", "NN_learning_curve.png")
 print(time.time()-t0," seconds")
 
-#a, train_score, test_score = sklearn.model_selection.learning_curve(Classifier_RHC, fruits_train_x,pd.get_dummies(fruits_train_y), train_sizes=np.linspace(0.25,1,10),scoring='f1_weighted', cv=2, n_jobs=-1)
-#plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_RHC_learning_curve","sample size", "NN_RHC_learning_curve.png")
-#print(time.time()-t0," seconds")
+a, train_score, test_score = sklearn.model_selection.learning_curve(Classifier_RHC, fruits_train_x,pd.get_dummies(fruits_train_y), train_sizes=np.linspace(0.25,1,10),scoring='f1_weighted', cv=2, n_jobs=4)
+plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_RHC_learning_curve","sample size", "NN_RHC_learning_curve.png")
+print(time.time()-t0," seconds")
 
-#a, train_score, test_score = sklearn.model_selection.learning_curve(Classifier_SA, fruits_train_x,pd.get_dummies(fruits_train_y), train_sizes=np.linspace(0.25,1,10),scoring='f1_weighted', cv=2, n_jobs=4)
-#plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_SA_learning_curve","sample size", "NN_SA_learning_curve.png")
-#print(time.time()-t0," seconds")
+a, train_score, test_score = sklearn.model_selection.learning_curve(Classifier_SA, fruits_train_x,pd.get_dummies(fruits_train_y), train_sizes=np.linspace(0.25,1,10),scoring='f1_weighted', cv=2, n_jobs=4)
+plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_SA_learning_curve","sample size", "NN_SA_learning_curve.png")
+print(time.time()-t0," seconds")
 
 a, train_score, test_score = sklearn.model_selection.learning_curve(Classifier_GA, fruits_train_x,pd.get_dummies(fruits_train_y), train_sizes=np.linspace(0.25,1,10),scoring='f1_weighted', cv=2, n_jobs=4)
 plot_11(train_score.mean(axis=1), test_score.mean(axis=1), np.linspace(0.25,1,10) * len(fruits_train_x), "NN_GA_learning_curve","sample size", "NN_GA_learning_curve.png")
