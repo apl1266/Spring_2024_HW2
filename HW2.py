@@ -369,8 +369,10 @@ if 1:
     plotter(KC_MIMIC[2][:,1], KC_MIMIC[2][:,0],"KC for "+str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors", "KC_MIMIC.png","total population number")
     print("---------------------")
 
-    plotter22(KC_RHC[2][:,1], KC_RHC[2][:,0],KC_SA[2][:,1], KC_SA[2][:,0],KC_GA[2][:,1], KC_GA[2][:,0],KC_MIMIC[2][:,1], KC_MIMIC[2][:,0], "KC_full_plot.png", str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors")
-
+    #plotter22(KC_RHC[2][:,1], KC_RHC[2][:,0],KC_SA[2][:,1], KC_SA[2][:,0],KC_GA[2][:,1], KC_GA[2][:,0],KC_MIMIC[2][:,1], KC_MIMIC[2][:,0], "KC_full_plot.png", str(num_edges)+" number of edges "+str(num_towns)+" nodes and "+str(num_colors)+" colors")
+    plotter22(KC_RHC[2][:, 1], KC_RHC[2][:, 0], KC_SA[2][:, 1], KC_SA[2][:, 0], KC_GA[2][:, 1], KC_GA[2][:, 0],
+              KC_MIMIC[2][:, 1], KC_MIMIC[2][:, 0], "KC_full_plot.png",
+              str(num_edges) + " number of edges ")
 
 
 #Nueral nets optimizers
